@@ -62,6 +62,13 @@ class Shopper(Facade):
     @state_attribute(
         bind=['ShopperInterlock'])
     def InterlockAlarm(self, alarm):
+        """
+        This attribute changes state of device, accordingly to ShopperInterlock
+        attribute. When it's on, the state is ALARM, otherwise the state is ON.
+        :param alarm: ShopperInterlock
+        :return: ALARM state when ShopperInterlock is on, ON state otherwise
+        :rtype: DevState
+        """
         if alarm:
             return DevState.ALARM, "Shutter is interlocked"
         return DevState.ON, "Device is running"
