@@ -61,7 +61,7 @@ class Shopper(Facade):
 
     @state_attribute(
         bind=['ShopperInterlock'])
-    def InterlockAlarm(self, alarm):
+    def interlock_alarm(self, alarm):
         """
         This attribute changes state of device, accordingly to ShopperInterlock
         attribute. When it's on, the state is ALARM, otherwise the state is ON.
