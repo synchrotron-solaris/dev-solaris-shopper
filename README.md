@@ -34,7 +34,7 @@ You can use it via:
 ```console
 Shopper instance_name
 ```
-Remember that Device Server instance has to registered in database previously.
+Remember that Device Server instance has to be registered in database previously.
 
 Requirements
 ------------

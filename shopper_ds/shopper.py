@@ -4,15 +4,15 @@ This module contains device class Shopper and run method for it.
 
 # Imports
 from tango import DevState, AttrWriteType, DispLevel
-from facadedevice import Facade, proxy_attribute, proxy_command
+from facadedevice import Facade, proxy_attribute, proxy_command, state_attribute
 
 
 class Shopper(Facade):
     """
     This class implements Tango device server for control of shutter device (integrated shutter and stopper).
-    Each Tango device represents one shutter, which can be in open or closed.
+    Each Tango device represents one shutter, which can be open or closed.
 
-    The Tango device works on a set of four PLC attributes of type DevShort, which must be
+    The Tango device works on a set of four PLC attributes of type bool, which must be
     exposed by PLC device server.
 
     OpenS PLC attribute should be True when shutter is open and False when it is closed
@@ -57,6 +57,15 @@ class Shopper(Facade):
         description="Attribute that represents PLC signal for shutter in "
                     "interlock alarm.")
 
+    # state attributes
+
+    @state_attribute(
+        bind=['ShopperInterlock'])
+    def InterlockAlarm(self, alarm):
+        if alarm:
+            return DevState.ALARM, "Shutter is interlocked"
+        return DevState.ON, "Device is running"
+
     # proxy commands
 
     @proxy_command(
@@ -68,7 +77,7 @@ class Shopper(Facade):
         """
          :rtype: bool
         """
-        subcommand(1)
+        subcommand(True)
         return True
 
     @proxy_command(
@@ -80,7 +89,7 @@ class Shopper(Facade):
         """
         :rtype: bool
         """
-        subcommand(1)
+        subcommand(True)
         return True
 
 # run server
